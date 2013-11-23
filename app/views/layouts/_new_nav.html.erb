@@ -1,0 +1,149 @@
+<!-- Navigation -->
+
+<nav class="top-bar nav">
+  <ul class="title-area">
+    <!-- Title Area -->
+    <li class="name">
+      <h1 data-position="bottom" data-intro="This link will reset the home page. Click on it at any time." style="margin-left: 10px;">
+        
+    <% if request.original_url == "http://wizardsandspaceships.com/" %>
+	<a href="./home/index">
+          Wizards<span class="red">&</span>Spaceships
+        </a>
+    <% else %>
+        <a href="/#">
+          Wizards<span class="red">&</span>Spaceships
+        </a>
+    <% end %>
+      </h1>
+    </li>
+  </ul>
+
+  <section class="top-bar-section">
+    <ul class="left">
+     <% if @auth.blank? %>
+       <li class='name'><h1><%= link_to('Login', '##', :id => 'login-form-btn') %></h1></li>
+       <li class='name' data-position=right data-intro='Click here to Register'><h1><%=link_to('Register','##', :'data-reveal-id' => 'register' ) %></h1></li>
+     <% end %>
+
+
+    <% if @auth.present?  %>
+       <% if @auth.present? %> <!-- only show the below if logged in -->
+        <li class='has-dropdown' data-position=right data-intro='Click here to Log Out'>
+          <%= link_to('Hello, ' +  @auth.email + '!', '#') %>
+        <ul class="dropdown">
+           <li><%= link_to('Logout', '/users/sign_out', :method => :delete ) %></li>
+        </ul>
+        </li>
+       <% else %>
+       <% end %>
+    <% end %>
+
+
+
+    </ul>
+
+  <ul class='right'>
+    <li><%= link_to(image_tag("/assets/gear.png", :size => '27x27', :id => 'gear'), "#sidr", :'data-show-form' => true, :'data-toggle-form' => true, "data-toggle" => "chardinjs", id: 'gear-link') %></li>
+  </ul>
+
+
+</section>
+</nav>
+<!-- End Top Bar -->
+<!-- End Navigation -->
+<%#= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
+
+<% if !@auth.present? %>
+<div id="call_to_action">
+<div class="row">
+<div class="large-3 columns screen">
+<h2> An online bookclub for lovers of great <span class="red"> science fiction </span> and <span class="red"> fantasy!</span></h2>
+<h3> Browse the <span class="red">NPR</span> top <span class="red"> 100</span></h3></br>
+<h3> Put the <span class="red">books </span> you have read onto your <span class="red">bookshelf</span></h3></br>
+<h3> Create <span class="red">Topics </span> and <span class="red">Discuss!</span></h3></br>
+<div class=learn_more_button">
+<%= link_to('TAKE A PEEK', '##', :id => 'learn-more', :class => 'button radius success small learn-more-class', data: { position: 'top', intro: 'Watch a slideshow about the site!'}) %>
+</div>
+
+</div>
+</div>
+</div> 
+
+<div id="onboard" class="total_transparency">
+
+<div class="slideshow-wrapper">
+  <div class="preloader"></div>
+<div class="slideshow-wrapper-inner">
+<ul id="featured1" data-orbit data-options="slide_number_class: hide; timer_speed:4000; bullets: false;">
+  <li>
+    <img src="/assets/slider1.png" />
+    <div class="orbit-caption"><%=link_to('Sign Me Up!','#', id:'featured1_register', :class => 'button radius secondary small', :'data-reveal-id' => 'register' ) %></div>
+  </li>
+  <li>
+    <img src="/assets/slider2.png" />
+    <div class="orbit-caption"><%=link_to('Sign Me Up!','#', id:'featured1_register', :class => 'button radius secondary small', :'data-reveal-id' => 'register' ) %></div>
+  </li>
+  <li>
+    <img src="/assets/slider3.png" />
+    <div class="orbit-caption"><%=link_to('Sign Me Up!','#', id:'featured1_register', :class => 'button radius secondary small', :'data-reveal-id' => 'register' ) %></div>
+  </li>
+  <li>
+    <img src="/assets/slider4.png" />
+    <div class="orbit-caption"><%=link_to('Sign Me Up!','#', id:'featured1_register', :class => 'button radius secondary small', :'data-reveal-id' => 'register' ) %></div>
+  </li>
+  <li>
+    <img src="/assets/slider5.png" />
+    <div class="orbit-caption"><%=link_to('Sign Me Up!','#', id:'featured1_register', :class => 'button radius secondary small', :'data-reveal-id' => 'register' ) %></div>
+  </li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<% end %>
+
+<div id="login_form2" class="hide" data-position=right data-intro='Input your email address and password to log-in.'>
+
+<h2>Sign In </h2>
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+  <div><%= f.label :email %><br />
+  <%= f.email_field :email, :autofocus => true %></div>
+
+  <div><%= f.label :password %><br />
+  <%= f.password_field :password %></div>
+
+  <% if devise_mapping.rememberable? -%>
+    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+  <% end -%>
+
+  <div><%= f.submit "LOGIN", :class => "button small radius alert" %> <button type="button" class="button small radius alert" id="cancel_btn">CANCEL</button></div>
+<% end %>
+
+<%=link_to('Forgot your password?','##', :'data-reveal-id' => 'forgot_password' ) %>
+
+<%#= render "devise/shared/links" %>
+</div>
+
+<div id='modals'>
+  <%#= render(:partial => 'layouts/nav_bar_modals') %>
+</div>
+
+<div id="register" class="reveal-modal [small]">
+  <%= render :template => "devise/registrations/new", 
+                    :locals => { 
+                      :resource => User.new, 
+                      :resource_name => :user } %>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="forgot_password" class="reveal-modal [small]">
+  <%= render :template => "devise/passwords/new",
+                    :locals => {
+                      :resource => User.new,
+                      :resource_name => :user } %>
+  <a class="close-reveal-modal">&#215;</a>
+</div>

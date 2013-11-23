@@ -1,0 +1,23 @@
+<div class="book_container">
+
+<div id="book_sort_information">
+<h3 id="book_title" STYLE="margin:0;padding:0;"><%= @book.title %><br STYLE="line-height:0px;margin:0;padding:0;"/></h3>
+<h3><span STYLE="font-size: small; color: #ffffff;margin:0;padding:0;">NPR Ranking: <%= @book.rank %></span></h3>
+<h3><span STYLE="font-size: small; color: #ffffff;margin:0;padding:0;">Year Published: <%= @book.publication.year %></span></h3>
+<h3><span STYLE="font-size: small; color: #ffffff;margin:0;padding:0;">User Rating: <%= @book.rating_overall %></span></h3>
+</div>
+<%= image_tag(@book.picture, :width => '200px', :class => 'picture') %>
+
+<%= form_for @book, url: {action: "update"}, html: {class: "nifty_form"} do |f| %>
+  <%= hidden_field_tag(:booklist_id, @user.booklist.id) %>
+  <%= hidden_field_tag(:id, @book.id) %>
+  <%= f.submit @button_label, :class => 'radius button tiny secondary' %>
+  <div id="added_removed_notice"><%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %></div>
+<% end %>
+
+<p id="book_description_show"> <strong> Book Description: </strong><%= @book.description %> </p>
+</div>
+
+<% if false %>
+/* => #<Book id: 1, title: "The Lord Of The Rings", author: "J.R.R. Tolkien", description: "A Christian can almost be forgiven for not reading ...", picture: "/cover_art/The_Lord_of_the_Rings.jpg", publication: 1954, rating_style: nil, rating_plot: nil, rating_theme: nil, rating_characters: nil, rating_overall: nil, created_at: "2013-09-28 04:20:50", updated_at: "2013-09-28 04:20:50", rank: 1, booklist_id: nil> */
+<% end %>
